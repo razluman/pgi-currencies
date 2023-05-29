@@ -1,6 +1,7 @@
 from django.db.models import Q
 from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, ListModelMixin
+from iommi import Page, Form, Table
 from .serializers import CurrencySerializer, RateSerializer
 from .models import Currency, Rate
 from .permissions import IsRateAdmin
@@ -71,3 +72,11 @@ class RateAdminViewSet(
 
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
+
+
+class CurrencyPage(Page):
+    a_table = Table(auto__model=Currency)
+    create_form = Form.create(auto__model=Currency)
+
+    class Meta:
+        title = "Currencies"
