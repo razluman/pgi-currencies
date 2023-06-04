@@ -9,7 +9,8 @@ def import_rate():
     if res.upper() != "O":
         print("Operation cancelled")
         return
-    filename = "Rate-2023-05-07.csv"
+    # filename = "Rate-2023-05-07.csv"
+    filename = "Rate.csv"
     i = 1
     sep = "\t"
     with open(filename, "r") as file:
