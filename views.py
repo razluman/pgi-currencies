@@ -4,6 +4,7 @@ from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, ListMode
 from .serializers import CurrencySerializer, RateSerializer
 from .models import Currency, Rate
 from .permissions import IsRateAdmin
+from iommi import Table, Column, Page
 
 
 class CurrencyViewSet(ReadOnlyModelViewSet):
@@ -71,3 +72,24 @@ class RateAdminViewSet(
 
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
+
+
+class RatesTable(Table):
+    # currency = Column()
+    # date = Column()
+    # rate = Column()
+
+    class Meta:
+        auto__model = Rate
+        rows = Rate.objects.all().order_by("rate")
+        # columns__date__filter__include = True
+        columns__currency__filter__include = True
+
+
+class RatePage(Page):
+    a_table = Table(
+        auto__model=Rate,
+        columns__date__filter__include=True,
+        columns__currency__filter__include=True,
+        columns__created_at__include=False,
+    )
