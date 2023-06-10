@@ -1,0 +1,22 @@
+<h1>Rates</h1>
+<p>{{ mycurrencies }}</p>
+<ul>
+    {% for rate in page_obj %}
+        <li>{{ rate.date|date }}  - {{ rate.currency }} : {{ rate.rate }}</li>
+    {% empty %}
+        <li>No rates yet.</li>
+    {% endfor %}
+</ul>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1&{{ get_copy.urlencode }}">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}&{{ get_copy.urlencode }}">previous</a>
+        {% endif %}
+        <span class="current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}&{{ get_copy.urlencode }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}&{{ get_copy.urlencode }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>

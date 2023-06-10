@@ -1,3 +1,8 @@
+from typing import Any, Dict
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from django.db.models.query import QuerySet
+from django.views.generic.list import ListView
 from django.db.models import Q
 from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, ListModelMixin
@@ -71,3 +76,45 @@ class RateAdminViewSet(
 
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
+
+
+class RateListView(ListView):
+    model = Rate
+    paginate_by = 10
+
+    def get_queryset(self) -> QuerySet[Any]:
+        object_list = Rate.objects.filter(currency__active=True).order_by(
+            "-date", "-rate"
+        )
+        currency = self.request.GET.get("currency")
+        if currency:
+            object_list = object_list.filter(currency=currency)
+        return object_list
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        self.request.session["mycurrencies"] = ["EUR", "USD"]
+        mycurrencies = self.request.session.get("mycurrencies")
+        context["mycurrencies"] = mycurrencies
+        get_copy = self.request.GET.copy()
+        if get_copy.get("page"):
+            get_copy.pop("page")
+        context["get_copy"] = get_copy
+        return context
+
+
+def rates_list(request):
+    request.session["mycurrencies"] = ["EUR", "USD"]
+    mycurrencies = request.session.get("mycurrencies")
+    object_list = Rate.objects.filter(currency__active=True).order_by("-date", "-rate")
+    currency = request.GET.get("currency")
+    if currency:
+        object_list = object_list.filter(currency=currency)
+    paginator = Paginator(object_list, 20)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(
+        request,
+        "pgi_currencies/rate_list.html",
+        {"page_obj": page_obj, "mycurrencies": mycurrencies},
+    )
