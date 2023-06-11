@@ -93,9 +93,12 @@ class RateListView(ListView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        self.request.session["mycurrencies"] = ["EUR", "USD"]
-        mycurrencies = self.request.session.get("mycurrencies")
-        context["mycurrencies"] = mycurrencies
+        display = self.request.session.get("display")
+        if display is None:
+            display = Currency.objects.filter(active=True)
+        context["display"] = display
+        not_display = Currency.objects.all().exclude(currency__in=context["display"])
+        context["not_display"] = not_display
         get_copy = self.request.GET.copy()
         if get_copy.get("page"):
             get_copy.pop("page")
