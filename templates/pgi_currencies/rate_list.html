@@ -1,33 +1,30 @@
-<h1>Rates</h1>
-<select name="not_display" size=5>
-    {% for currency in not_display %}
-        <option value={{ currency.currency }}>{{ currency.currency }}
-        </option>
-    {% endfor %}
-</select>
-<select name="display" size=5>
-    {% for currency in display %}
-        <option value={{ currency.currency }}>{{ currency.currency }}
-        </option>
-    {% endfor %}
-</select>
-<ul>
-    {% for rate in page_obj %}
-        <li>{{ rate.date|date }}  - {{ rate.currency }} : {{ rate.rate }}</li>
-    {% empty %}
-        <li>No rates yet.</li>
-    {% endfor %}
-</ul>
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1&{{ get_copy.urlencode }}">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}&{{ get_copy.urlencode }}">previous</a>
-        {% endif %}
-        <span class="current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}&{{ get_copy.urlencode }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}&{{ get_copy.urlencode }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
+{% extends 'pgi_currencies/base.html' %}
+{% block content %}
+    <h1>Rates</h1>
+    <select name="not_display" size=5>
+        {% for currency in not_display %}
+            <option value={{ currency.currency }}>{{ currency.currency }}
+            </option>
+        {% endfor %}
+    </select>
+    <select name="display" size=5>
+        {% for currency in display %}
+            <option value={{ currency.currency }}>{{ currency.currency }}
+            </option>
+        {% endfor %}
+    </select>
+    <div id="rate_table">{% include 'pgi_currencies/rate_list_table.html' %}</div>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1&{{ get_copy.urlencode }}">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}&{{ get_copy.urlencode }}">previous</a>
+            {% endif %}
+            <span class="current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&{{ get_copy.urlencode }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}&{{ get_copy.urlencode }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock content %}

@@ -1,0 +1,7 @@
+<ul>
+    {% for rate in page_obj %}
+        <li>{{ rate.date|date }}  - {{ rate.currency }} : {{ rate.rate }}</li>
+    {% empty %}
+        <li>No rates yet.</li>
+    {% endfor %}
+</ul>
