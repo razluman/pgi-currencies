@@ -7,13 +7,15 @@
             </option>
         {% endfor %}
     </select>
+    <button type="button">Add</button>
+    <button type="button">Remove</button>
     <select name="display" size=5>
         {% for currency in display %}
             <option value={{ currency.currency }}>{{ currency.currency }}
             </option>
         {% endfor %}
     </select>
-    <div id="rate_table">{% include 'pgi_currencies/rate_list_table.html' %}</div>
+    <div id="rate_table">{% include "pgi_currencies/rate_list_table.html" %}</div>
     <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}

@@ -7,7 +7,6 @@
         <!-- Bootstrap CSS -->
         {% load django_bootstrap5 %}
         {% bootstrap_css %}
-        {% bootstrap_javascript %}
         {% bootstrap_messages %}
         <script src="https://unpkg.com/htmx.org@1.9.2"></script>
         <title>Hello, world!</title>
@@ -15,5 +14,6 @@
     <body>
         {% block content %}
         {% endblock content %}
+        {% bootstrap_javascript %}
     </body>
 </html>
