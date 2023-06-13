@@ -1,6 +1,7 @@
 from typing import Any, Dict
 from django.core.paginator import Paginator
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.db.models.query import QuerySet
 from django.views.generic.list import ListView
 from django.db.models import Q
@@ -104,6 +105,11 @@ class RateListView(ListView):
             get_copy.pop("page")
         context["get_copy"] = get_copy
         return context
+
+
+def test_htmx(request):
+    context = request.POST.get("display_list")
+    return HttpResponse(context)
 
 
 def rates_list(request):

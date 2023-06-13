@@ -6,6 +6,7 @@ from .views import (
     RateAdminViewSet,
     RateListView,
     rates_list,
+    test_htmx,
 )
 
 
@@ -18,5 +19,6 @@ app_name = "pgi_currencies"
 urlpatterns = [
     path("api/", include(router.urls)),
     path("rate/", RateListView.as_view(), name="rate-list"),
+    path("test-htmx/", test_htmx, name="test-htmx"),
     # path("rate/", rates_list, name="rates-list"),
 ]

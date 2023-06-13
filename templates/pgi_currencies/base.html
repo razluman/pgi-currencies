@@ -8,13 +8,14 @@
         {% load django_bootstrap5 %}
         {% bootstrap_css %}
         {% bootstrap_messages %}
-        <script src="https://unpkg.com/htmx.org@1.9.2"></script>
         <title>Hello, world!</title>
     </head>
-    <body>
+    <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
         {% block content %}
-        
         {% endblock content %}
         {% bootstrap_javascript %}
+        <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+        {% block my_scripts %}
+        {% endblock my_scripts %}
     </body>
 </html>
