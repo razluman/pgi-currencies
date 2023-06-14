@@ -1,20 +1,19 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
     <head>
-        <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Bootstrap CSS -->
+        <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet">
         {% load django_bootstrap5 %}
-        {% bootstrap_css %}
         {% bootstrap_messages %}
         <title>Hello, world!</title>
     </head>
     <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
         {% block content %}
         {% endblock content %}
-        {% bootstrap_javascript %}
-        <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+        <script src="{% static 'bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'htmx.min.js' %}"></script>
         {% block my_scripts %}
         {% endblock my_scripts %}
     </body>

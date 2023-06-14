@@ -1,7 +1,6 @@
 from typing import Any, Dict
 from django.core.paginator import Paginator
 from django.shortcuts import render
-from django.http import HttpResponse
 from django.db.models.query import QuerySet
 from django.views.generic.list import ListView
 from django.db.models import Q
@@ -108,8 +107,7 @@ class RateListView(ListView):
 
 
 def test_htmx(request):
-    context = request.POST.get("display_list")
-    return HttpResponse(context)
+    return render(request, "pgi_currencies/rate_list_table.html")
 
 
 def rates_list(request):
