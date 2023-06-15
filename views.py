@@ -86,23 +86,23 @@ class RateListView(ListView):
         object_list = Rate.objects.filter(currency__active=True).order_by(
             "-date", "-rate"
         )
-        currency = self.request.GET.get("currency")
-        if currency:
-            object_list = object_list.filter(currency=currency)
+        # currency = self.request.GET.get("currency")
+        # if currency:
+        # object_list = object_list.filter(currency=currency)
         return object_list
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        display = self.request.session.get("display")
-        if display is None:
-            display = Currency.objects.filter(active=True)
-        context["display"] = display
-        not_display = Currency.objects.all().exclude(currency__in=context["display"])
-        context["not_display"] = not_display
-        get_copy = self.request.GET.copy()
-        if get_copy.get("page"):
-            get_copy.pop("page")
-        context["get_copy"] = get_copy
+        # display = self.request.session.get("display")
+        # if display is None:
+        # display = Currency.objects.filter(active=True)
+        # context["display"] = display
+        # not_display = Currency.objects.all().exclude(currency__in=context["display"])
+        # context["not_display"] = not_display
+        # get_copy = self.request.GET.copy()
+        # if get_copy.get("page"):
+        # get_copy.pop("page")
+        # context["get_copy"] = get_copy
         return context
 
 
@@ -111,16 +111,22 @@ def test_htmx(request):
     # return render(request, "pgi_currencies/rate_list_table.html")
 
 
-def rates_list_htmx(request, page_number):
+def get_page_object(page_number):
     object_list = Rate.objects.filter(currency__active=True).order_by("-date", "-rate")
     paginator = Paginator(object_list, 20)
-    page_obj = paginator.get_page(page_number)
+    return paginator.get_page(page_number)
+
+
+def rates_list_htmx(request, page_number):
+    page_obj = get_page_object(page_number)
     context = {"page_obj": page_obj}
     return render(request, "pgi_currencies/rate_list_table.html", context)
 
 
 def rates_list(request):
-    return render(request, "pgi_currencies/rate_list.html", {"page_obj": object_list})
+    page_obj = get_page_object(3)
+    context = {"page_obj": page_obj}
+    return render(request, "pgi_currencies/rate_list.html", context)
 
 
 def old_rates_list(request):
