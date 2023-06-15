@@ -1,29 +1,7 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <h1>Rates</h1>
-    <form hx-post="{% url 'pgi_currencies:test-htmx' %}"
-          hx-target="#rate_table">
-        {% csrf_token %}
-        <select id="not_display" size=5>
-            {% for currency in not_display %}
-                <option value={{ currency.currency }}>{{ currency.currency }}
-                </option>
-            {% endfor %}
-        </select>
-        <button type="button" onclick="add_remove(true)">Add</button>
-        <button type="button" onclick="add_remove(false)">Remove</button>
-        <select id="display" size=5>
-            {% for currency in display %}
-                <option value={{ currency.currency }}>{{ currency.currency }}
-                </option>
-            {% endfor %}
-        </select>
-        <input type="text" id="display_list" name="display_list">
-        <input type="text" id="not_display_list" name="not_display_list">
-        <input type="submit" />
-    </form>
-    <div id="rate_table">{% include "pgi_currencies/rate_list_table.html" %}</div>
+    <div id="rate_list">{% include "pgi_currencies/rate_list_table.html" %}</div>
     <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
@@ -38,7 +16,3 @@
         </span>
     </div>
 {% endblock content %}
-{% block my_scripts %}
-    <script src="{% static 'pgi_currencies/js/rate_list.js' %}"></script>
-    <script type="text/javascript">set_val_display_list();</script>
-{% endblock my_scripts %}

@@ -1,6 +1,6 @@
 from typing import Any, Dict
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from django.db.models.query import QuerySet
 from django.views.generic.list import ListView
 from django.db.models import Q
@@ -107,10 +107,23 @@ class RateListView(ListView):
 
 
 def test_htmx(request):
-    return render(request, "pgi_currencies/rate_list_table.html")
+    return HttpResponse("test")
+    # return render(request, "pgi_currencies/rate_list_table.html")
+
+
+def rates_list_htmx(request, page_number):
+    object_list = Rate.objects.filter(currency__active=True).order_by("-date", "-rate")
+    paginator = Paginator(object_list, 20)
+    page_obj = paginator.get_page(page_number)
+    context = {"page_obj": page_obj}
+    return render(request, "pgi_currencies/rate_list_table.html", context)
 
 
 def rates_list(request):
+    return render(request, "pgi_currencies/rate_list.html", {"page_obj": object_list})
+
+
+def old_rates_list(request):
     request.session["mycurrencies"] = ["EUR", "USD"]
     mycurrencies = request.session.get("mycurrencies")
     object_list = Rate.objects.filter(currency__active=True).order_by("-date", "-rate")
