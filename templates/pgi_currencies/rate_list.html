@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+    <form hx-get="{% url "pgi_currencies:rates-list" %}"
+          hx-target="{{ target_list }}">
+        <input type="text" name="currency">
+        <input type="submit">
+    </form>
     <div id="rate-list">{% include "pgi_currencies/rate_list_table.html" %}</div>
 {% endblock content %}

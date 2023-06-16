@@ -5,7 +5,6 @@ from .views import (
     RateViewSet,
     RateAdminViewSet,
     RateListView,
-    rates_list,
 )
 
 router = routers.SimpleRouter()
@@ -16,6 +15,5 @@ router.register("admin/rate", RateAdminViewSet, basename="admin-rate")
 app_name = "pgi_currencies"
 urlpatterns = [
     path("api/", include(router.urls)),
-    # path("rate/", rates_list, name="rates-list"),
     path("rate/", RateListView.as_view(), name="rates-list"),
 ]

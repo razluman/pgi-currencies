@@ -95,38 +95,23 @@ class RateListView(ListView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        page_obj = context["page_obj"]
-        get_copy = self.get_copy()
-        context["page_first"] = f"?page=1&{get_copy}"
-        if page_obj.has_previous():
-            context[
-                "page_previous"
-            ] = f"?page={page_obj.previous_page_number()}&{get_copy}"
-        if page_obj.has_next():
-            context["page_next"] = f"?page={page_obj.next_page_number()}&{get_copy}"
-        context["page_last"] = f"?page={page_obj.paginator.num_pages}&{get_copy}"
+        context["target_list"] = "#rate-list"
         # display = self.request.session.get("display")
         # if display is None:
         # display = Currency.objects.filter(active=True)
         # context["display"] = display
         # not_display = Currency.objects.all().exclude(currency__in=context["display"])
         # context["not_display"] = not_display
-        # get_copy = self.request.GET.copy()
-        # if get_copy.get("page"):
-        # get_copy.pop("page")
-        # context["get_copy"] = get_copy
+        get_copy = self.request.GET.copy()
+        if get_copy.get("page"):
+            get_copy.pop("page")
+        context["get_copy"] = get_copy
         return context
 
     def get_template_names(self) -> List[str]:
         if self.request.htmx:
             return "pgi_currencies/rate_list_table.html"
         return super().get_template_names()
-
-    def get_copy(self):
-        get_copy = self.request.GET.copy()
-        if get_copy.get("page"):
-            get_copy.pop("page")
-        return urlencode(get_copy)
 
 
 @require_GET
@@ -141,24 +126,6 @@ def rates_list(request):
         template_name = "pgi_currencies/rate_list.html"
     context = {"page_obj": page_obj}
     return render(request, template_name, context)
-
-
-def rates_list_render(request, page_number, template_name):
-    object_list = Rate.objects.filter(currency__active=True).order_by("-date", "-rate")
-    currency = request.GET.get("currency")
-    if currency:
-        object_list = object_list.filter(currency=currency)
-    paginator = Paginator(object_list, 20)
-    page_obj = paginator.get_page(page_number)
-    context = {"page_obj": page_obj}
-    return render(request, template_name, context)
-
-
-def get_context_data(request, context):
-    get_copy = request.GET.copy()
-    if get_copy.get("page"):
-        get_copy.pop("page")
-    context["get_copy"] = get_copy
 
 
 def old_rates_list(request):
