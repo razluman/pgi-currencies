@@ -6,17 +6,18 @@
     {% endfor %}
 </ul>
 <div class="pagination">
-    <span class="step-links" hx-target="#rate-list" hx-swap="outerHTML">
+    <span class="step-links"
+          hx-target="#rate-list"
+          hx-swap="innerHTML"
+          hx-push-url="true">
         {% if page_obj.has_previous %}
-            <a href="" hx-post="{% url 'pgi_currencies:rates-list-htmx' '1' %}">&laquo; first</a>
-            <a href=""
-               hx-post="{% url 'pgi_currencies:rates-list-htmx' page_obj.previous_page_number %}">previous</a>
-            {% comment %} <a href="?page={{ page_obj.previous_page_number }}&{{ get_copy.urlencode }}">previous</a> {% endcomment %}
+            <a href="{{ page_first }}" hx-get="{{ page_first }}">&laquo; first</a>
+            <a href="{{ page_previous }}" hx-get="{{ page_previous }}">previous</a>
         {% endif %}
         <span class="current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}&{{ get_copy.urlencode }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}&{{ get_copy.urlencode }}">last &raquo;</a>
+            <a href="{{ page_next }}" hx-get="{{ page_next }}">next</a>
+            <a href="{{ page_last }}" hx-get="{{ page_last }}">last</a>
         {% endif %}
     </span>
 </div>
