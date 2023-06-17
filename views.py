@@ -82,7 +82,7 @@ class RateAdminViewSet(
 
 class RateListView(ListView):
     model = Rate
-    paginate_by = 10
+    paginate_by = 25
 
     def get_queryset(self) -> QuerySet[Any]:
         object_list = Rate.objects.filter(currency__active=True).order_by(
@@ -91,11 +91,17 @@ class RateListView(ListView):
         currency = self.request.GET.get("currency")
         if currency:
             object_list = object_list.filter(currency=currency)
+        year = self.request.GET.get("year")
+        if year:
+            object_list = object_list.filter(date__year=year)
+        month = self.request.GET.get("month")
+        if month:
+            object_list = object_list.filter(date__month=month)
         return object_list
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context["target_list"] = "#rate-list"
+        context["hx_target"] = self.get_hx_target()
         # display = self.request.session.get("display")
         # if display is None:
         # display = Currency.objects.filter(active=True)
@@ -112,6 +118,9 @@ class RateListView(ListView):
         if self.request.htmx:
             return "pgi_currencies/rate_list_table.html"
         return super().get_template_names()
+
+    def get_hx_target(self):
+        return "#rate-list"
 
 
 @require_GET
