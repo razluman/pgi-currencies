@@ -1,8 +1,22 @@
-<ul>
-    {% for rate in page_obj %}
-        <li>{{ rate.date|date }}  - {{ rate.currency }} : {{ rate.rate }}</li>
-    {% empty %}
-        <li>No rates yet.</li>
-    {% endfor %}
-</ul>
-{% include "pagination.html" %}
+<div class="table-container is-size-6-mobile">
+    <table class="table is-hoverable is-striped">
+        <thead>
+            <tr>
+                <th>Currency</th>
+                <th>Date</th>
+                <th>Rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rate in page_obj %}
+                <tr>
+                    <td>{{ rate.currency }}</td>
+                    <td class="is-hidden-touch">{{ rate.date|date }}</td>
+                    <td class="is-hidden-desktop">{{ rate.date|date:"d M y" }}</td>
+                    <td>{{ rate.rate }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% include "bulma_pagination.html" %}

@@ -1,29 +1,32 @@
-{% extends "base.html" %}
+{% extends "bulma_base.html" %}
 {% load static %}
 {% block content %}
-    <div name="div_input"
-         hx-target="{{ hx_target }}"
-         hx-push-url="true"
-         hx-include="[name='div_input']"
-         hx-indicator="#spinner">
-        <input type="text"
-               name="currency"
-               placeholder="currency"
-               hx-trigger="keyup changed delay:500ms"
-               hx-get="{% url "pgi_currencies:rates-list" %}">
-        <input type="text"
-               name="year"
-               placeholder="year"
-               hx-trigger="keyup changed delay:500ms"
-               hx-get="{% url "pgi_currencies:rates-list" %}">
-        <input type="text"
-               name="month"
-               placeholder="month"
-               hx-trigger="keyup changed delay:500ms"
-               hx-get="{% url "pgi_currencies:rates-list" %}">
-    </div>
-    <div id="rate-list">{% include "pgi_currencies/rate_list_table.html" %}</div>
-    <img id="spinner"
-         class="htmx-indicator"
-         src="{% static 'svg-loaders/bars.svg' %}" />
+       <div class="columns"
+            name="div_input"
+            hx-target="{{ hx_target }}"
+            hx-push-url="true"
+            hx-include="[name='div_input']">
+              <div class="column">
+                     <input type="text"
+                            name="currency"
+                            placeholder="currency"
+                            hx-trigger="keyup changed delay:500ms"
+                            hx-get="{% url "pgi_currencies:rates-list" %}">
+              </div>
+              <div class="column">
+                     <input type="text"
+                            name="year"
+                            placeholder="year"
+                            hx-trigger="keyup changed delay:500ms"
+                            hx-get="{% url "pgi_currencies:rates-list" %}">
+              </div>
+              <div class="column">
+                     <input type="text"
+                            name="month"
+                            placeholder="month"
+                            hx-trigger="keyup changed delay:500ms"
+                            hx-get="{% url "pgi_currencies:rates-list" %}">
+              </div>
+       </div>
+       <div id="rate-list">{% include "pgi_currencies/rate_list_table.html" %}</div>
 {% endblock content %}

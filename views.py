@@ -82,7 +82,7 @@ class RateAdminViewSet(
 
 class RateListView(ListView):
     model = Rate
-    paginate_by = 25
+    paginate_by = 10
 
     def get_queryset(self) -> QuerySet[Any]:
         object_list = Rate.objects.filter(currency__active=True).order_by(
