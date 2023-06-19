@@ -1,10 +1,10 @@
 <div class="table-container is-size-6-mobile">
-    <table class="table is-hoverable is-striped is-fullwidth">
+    <table class="table is-hoverable is-striped mx-auto">
         <thead>
             <tr>
                 <th>Currency</th>
                 <th>Date</th>
-                <th>Rate</th>
+                <th class="has-text-right">Rate</th>
             </tr>
         </thead>
         <tbody>
@@ -13,10 +13,11 @@
                     <td>{{ rate.currency }}</td>
                     <td class="is-hidden-touch">{{ rate.date|date }}</td>
                     <td class="is-hidden-desktop">{{ rate.date|date:"d M y" }}</td>
-                    <td>{{ rate.rate }}</td>
+                    <td class="has-text-right">{{ rate.rate|floatformat:"2g" }}</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+<p>ok</p>
 {% include "bulma_pagination.html" %}
