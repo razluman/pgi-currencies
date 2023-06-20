@@ -120,7 +120,7 @@ class RateListView(ListView):
         return super().get_template_names()
 
     def get_hx_target(self):
-        return "#rate-list"
+        return ".ratelist"
 
 
 @require_GET

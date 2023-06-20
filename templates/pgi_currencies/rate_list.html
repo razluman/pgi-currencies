@@ -4,39 +4,42 @@
        Cours Ariary
 {% endblock title %}
 {% block content %}
-       <form name="div-input"
-             hx-target="{{ hx_target }}"
-             hx-push-url="true"
-             hx-include="[name='div-input']">
-              <div class="field is-grouped">
-                     <div class="control">
-                            <input type="text"
-                                   class="input has-text-centered"
-                                   size="4em"
-                                   name="currency"
-                                   placeholder="currency"
-                                   hx-trigger="keyup changed delay:500ms"
-                                   hx-get="{% url "pgi_currencies:rates-list" %}">
-                     </div>
-                     <div class="control">
-                            <input type="text"
-                                   class="input has-text-centered"
-                                   size="2em"
-                                   name="year"
-                                   placeholder="year"
-                                   hx-trigger="keyup changed delay:500ms"
-                                   hx-get="{% url "pgi_currencies:rates-list" %}">
-                     </div>
-                     <div class="control">
-                            <input type="text"
-                                   class="input has-text-centered"
-                                   size="2em"
-                                   name="month"
-                                   placeholder="month"
-                                   hx-trigger="keyup changed delay:500ms"
-                                   hx-get="{% url "pgi_currencies:rates-list" %}">
+       <div class="column is-4 is-offset-4 notification is-secondary">
+              <div name="div-input"
+                   hx-target="{{ hx_target }}"
+                   hx-push-url="true"
+                   hx-include="[name='div-input']"
+                   class="notification is-primary">
+                     <div class="field is-grouped">
+                            <div class="control">
+                                   <input type="text"
+                                          class="input has-text-centered"
+                                          size="4em"
+                                          name="currency"
+                                          placeholder="currency"
+                                          hx-trigger="keyup changed delay:500ms"
+                                          hx-get="{% url "pgi_currencies:rates-list" %}">
+                            </div>
+                            <div class="control">
+                                   <input type="text"
+                                          class="input has-text-centered"
+                                          size="2em"
+                                          name="year"
+                                          placeholder="year"
+                                          hx-trigger="keyup changed delay:500ms"
+                                          hx-get="{% url "pgi_currencies:rates-list" %}">
+                            </div>
+                            <div class="control">
+                                   <input type="text"
+                                          class="input has-text-centered"
+                                          size="2em"
+                                          name="month"
+                                          placeholder="month"
+                                          hx-trigger="keyup changed delay:500ms"
+                                          hx-get="{% url "pgi_currencies:rates-list" %}">
+                            </div>
                      </div>
               </div>
-       </form>
-       <div id="rate-list">{% include "pgi_currencies/rate_list_table.html" %}</div>
+              <div class="ratelist">{% include "pgi_currencies/rate_list_table.html" %}</div>
+       </div>
 {% endblock content %}
