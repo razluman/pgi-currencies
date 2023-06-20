@@ -1,7 +1,7 @@
-<div class="table-container is-size-6-mobile notification is-primary">
-    <table class="table is-hoverable is-striped mx-auto">
+<div class="table-container is-size-6-mobile">
+    <table class="table is-hoverable is-striped is-fullwidth">
         <thead>
-            <tr>
+            <tr class="has-text-centered">
                 <th>Currency</th>
                 <th>Date</th>
                 <th class="has-text-right">Rate</th>
@@ -9,7 +9,7 @@
         </thead>
         <tbody>
             {% for rate in page_obj %}
-                <tr>
+                <tr class="has-text-centered">
                     <td>{{ rate.currency }}</td>
                     <td class="is-hidden-touch">{{ rate.date|date }}</td>
                     <td class="is-hidden-desktop">{{ rate.date|date:"d M y" }}</td>
@@ -20,7 +20,6 @@
     </table>
 </div>
 <div class="container has-text-centered">
-    <p class="notification is-primary">ok</p>
-    <i class="fas fa-home"></i>
+    <a href="{% url 'pgi_currencies:rates-list' %}"><i class="fas fa-home"></i></a>
 </div>
-<div class="notification is-primary">{% include "bulma_pagination.html" %}</div>
+{% include "bulma_pagination.html" %}

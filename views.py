@@ -85,9 +85,7 @@ class RateListView(ListView):
     paginate_by = 10
 
     def get_queryset(self) -> QuerySet[Any]:
-        object_list = Rate.objects.filter(currency__active=True).order_by(
-            "-date", "-rate"
-        )
+        object_list = Rate.objects.all().order_by("-date", "currency")
         currency = self.request.GET.get("currency")
         if currency:
             object_list = object_list.filter(currency=currency)
