@@ -18,6 +18,7 @@ class CurrencyAdmin(ImportExportMixin, admin.ModelAdmin):
     )
     ordering = ("currency",)
     list_filter = ["active"]
+    search_fields = ["currency"]
 
     class CurrencyResource(ModelResource):
         def before_import_row(self, row, row_number=None, **kwargs):
@@ -48,6 +49,7 @@ class RateAdmin(ImportExportMixin, admin.ModelAdmin):
     ordering = ["-date", "currency"]
     search_fields = ["date", "currency__currency"]
     list_filter = ["currency__active"]
+    autocomplete_fields = ["currency"]
 
     class RateResource(ModelResource):
         def before_import_row(self, row, row_number=None, **kwargs):
