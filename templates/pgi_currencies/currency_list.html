@@ -1,0 +1,33 @@
+{% extends "pgi_currencies/bulma_base.html" %}
+{% load static %}
+{% block title %}
+       Liste Devises
+{% endblock title %}
+{% block content %}
+       <div class="column is-half is-offset-one-quarter">
+              <div class="container"
+                   name="div-input"
+                   hx-target="{{ hx_target }}"
+                   hx-push-url="true"
+                   hx-include="[name='div-input']">
+                     <div class="field is-grouped">
+                            <div class="control">
+                                   <input type="text"
+                                          class="input"
+                                          name="currency"
+                                          placeholder="search"
+                                          hx-trigger="keyup changed delay:500ms"
+                                          hx-get="{% url "pgi_currencies:currencies-list" %}">
+                            </div>
+                            <div class="select">
+                                   <select name="active" hx-get="{% url "pgi_currencies:currencies-list" %}">
+                                          <option value="1">Toutes les devises</option>
+                                          <option value="2">Devises affichées dans les cours</option>
+                                          <option value="3">Devises masquées dans les cours</option>
+                                   </select>
+                            </div>
+                     </div>
+              </div>
+              <div id="currencylist">{% include "pgi_currencies/currency_list_table.html" %}</div>
+       </div>
+{% endblock content %}
