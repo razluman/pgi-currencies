@@ -6,6 +6,8 @@ from .views import (
     RateAdminViewSet,
     CurrencyListView,
     RateListView,
+    toggle_currency_display,
+    CurrencyTableView,
 )
 
 router = routers.SimpleRouter()
@@ -17,5 +19,11 @@ app_name = "pgi_currencies"
 urlpatterns = [
     path("api/", include(router.urls)),
     path("devise/", CurrencyListView.as_view(), name="currencies-list"),
+    path(
+        "toggle-currency-display/<str:currency>/",
+        toggle_currency_display,
+        name="toggle-currency-display",
+    ),
     path("cours/", RateListView.as_view(), name="rates-list"),
+    path("currency/", CurrencyTableView.as_view(), name="cur-list"),
 ]

@@ -2,8 +2,8 @@
     <table class="table is-hoverable is-striped is-fullwidth">
         <thead>
             <tr>
-                <th>Currency</th>
-                <th>Name</th>
+                <th>Devise</th>
+                <th>Nom</th>
                 <th>Propagation</th>
                 <th>Cours</th>
             </tr>
@@ -17,6 +17,8 @@
                     <td>
                         <div class="field">
                             <input id="switch{{ currency.currency }}"
+                                   hx-post="{% url "pgi_currencies:toggle-currency-display" currency.currency %}"
+                                   hx-target="#none"
                                    type="checkbox"
                                    name="switchcurrency"
                                    class="switch is-rounded is-small"
@@ -29,7 +31,8 @@
         </tbody>
     </table>
 </div>
-<div class="container has-text-centered">
+<div class="block has-text-centered">
     <a href="{% url 'pgi_currencies:currencies-list' %}"><i class="fas fa-home"></i></a>
 </div>
+<div id="none"></div>
 {% include "pgi_currencies/bulma_pagination.html" %}

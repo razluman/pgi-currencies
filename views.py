@@ -1,16 +1,16 @@
 from typing import Any, Dict, List
-from django.core.paginator import Paginator
-from django.shortcuts import render
-from django.views.decorators.http import require_GET
-from django.utils.http import urlencode
+from django.shortcuts import HttpResponse
+from django.views.decorators.http import require_POST
 from django.db.models.query import QuerySet
 from django.views.generic.list import ListView
 from django.db.models import Q
 from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, ListModelMixin
+from django_tables2 import SingleTableView
 from .serializers import CurrencySerializer, RateSerializer
 from .models import Currency, Rate
 from .permissions import IsRateAdmin
+from .tables import CurrencyTable
 
 
 class CurrencyViewSet(ReadOnlyModelViewSet):
@@ -86,11 +86,16 @@ class CurrencyListView(ListView):
 
     def get_queryset(self) -> QuerySet[Any]:
         object_list = Currency.objects.all().order_by("currency")
+        mycurrencies = self.request.session.get("mycurrencies")
+        if not mycurrencies:
+            active_currencies = Currency.objects.filter(active=True)
+            mycurrencies = [currency.currency for currency in active_currencies]
+            self.request.session["mycurrencies"] = mycurrencies
         active = self.request.GET.get("active")
         if active == "2":
-            object_list = object_list.filter(active=True)
+            object_list = object_list.filter(currency__in=mycurrencies)
         if active == "3":
-            object_list = object_list.filter(active=False)
+            object_list = object_list.exclude(currency__in=mycurrencies)
         currency = self.request.GET.get("currency")
         if currency:
             object_list = object_list.filter(
@@ -116,6 +121,21 @@ class CurrencyListView(ListView):
 
     def get_hx_target(self):
         return "#currencylist"
+
+
+@require_POST
+def toggle_currency_display(request, currency):
+    currency = currency.upper()
+    mycurrencies = request.session.get("mycurrencies")
+    if not mycurrencies:
+        active_currencies = Currency.objects.filter(active=True)
+        mycurrencies = [currency.currency for currency in active_currencies]
+    if currency in mycurrencies:
+        mycurrencies.remove(currency)
+    else:
+        mycurrencies.append(currency)
+    request.session["mycurrencies"] = mycurrencies
+    return HttpResponse("")
 
 
 class RateListView(ListView):
@@ -158,3 +178,19 @@ class RateListView(ListView):
 
     def get_hx_target(self):
         return "#ratelist"
+
+
+class CurrencyTableView(SingleTableView):
+    model = Currency
+    table_class = CurrencyTable
+    template_name = "pgi_currencies/currency_tableview.html"
+    paginate_by = 10
+
+    def get_queryset(self) -> QuerySet[Any]:
+        object_list = Currency.objects.all().order_by("currency")
+        mycurrencies = self.request.session.get("mycurrencies")
+        if not mycurrencies:
+            active_currencies = Currency.objects.filter(active=True)
+            mycurrencies = [currency.currency for currency in active_currencies]
+            self.request.session["mycurrencies"] = mycurrencies
+        return object_list

@@ -33,7 +33,7 @@
                        hx-get="{% url "pgi_currencies:rates-list" %}"
                        hx-include="[name='div-input'],[name='search-page']"
                        size="2">
-            of {{ page_obj.paginator.num_pages }}</span>
+            /{{ page_obj.paginator.num_pages }}</span>
             {% if page_obj.has_next %}
                 <li>
                     <a class="pagination-link"
