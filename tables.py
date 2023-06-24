@@ -1,6 +1,7 @@
+from django.db.models import Q
 from django.utils.html import format_html
 import django_tables2 as tables
-from django_filters import FilterSet
+from django_filters import FilterSet, CharFilter
 from .models import Currency
 
 
@@ -30,6 +31,15 @@ class CurrencyTable(tables.Table):
 
 
 class CurrencyFilter(FilterSet):
+    search = CharFilter(field_name="search", method="search_filter", label="Search")
+
     class Meta:
         model = Currency
-        fields = {"propagation": ["icontains"]}
+        fields = ["search"]
+
+    def search_filter(self, queryset, name, value):
+        return queryset.filter(
+            Q(currency__icontains=value)
+            | Q(name__icontains=value)
+            | Q(propagation__icontains=value)
+        )

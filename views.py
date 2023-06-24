@@ -6,11 +6,12 @@ from django.views.generic.list import ListView
 from django.db.models import Q
 from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, ListModelMixin
-from django_tables2 import SingleTableView
+from django_tables2.views import SingleTableMixin
+from django_filters.views import FilterView
 from .serializers import CurrencySerializer, RateSerializer
 from .models import Currency, Rate
 from .permissions import IsRateAdmin
-from .tables import CurrencyTable
+from .tables import CurrencyTable, CurrencyFilter
 
 
 class CurrencyViewSet(ReadOnlyModelViewSet):
@@ -107,7 +108,7 @@ class CurrencyListView(ListView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context["hx_target"] = self.get_hx_target()
+        context["hx_target"] = "#currencylist"
         get_copy = self.request.GET.copy()
         if get_copy.get("page"):
             get_copy.pop("page")
@@ -118,9 +119,6 @@ class CurrencyListView(ListView):
         if self.request.htmx:
             return "pgi_currencies/currency_list_table.html"
         return super().get_template_names()
-
-    def get_hx_target(self):
-        return "#currencylist"
 
 
 @require_POST
@@ -180,11 +178,12 @@ class RateListView(ListView):
         return "#ratelist"
 
 
-class CurrencyTableView(SingleTableView):
+class CurrencyTableView(SingleTableMixin, FilterView):
     model = Currency
     table_class = CurrencyTable
-    template_name = "pgi_currencies/currency_tableview.html"
-    paginate_by = 10
+    template_name = "pgi_currencies/currency_table_view.html"
+    filterset_class = CurrencyFilter
+    paginate_by = 5
 
     def get_queryset(self) -> QuerySet[Any]:
         object_list = Currency.objects.all().order_by("currency")
@@ -194,3 +193,13 @@ class CurrencyTableView(SingleTableView):
             mycurrencies = [currency.currency for currency in active_currencies]
             self.request.session["mycurrencies"] = mycurrencies
         return object_list
+
+    def get_template_names(self) -> List[str]:
+        if self.request.htmx:
+            return "pgi_currencies/currency_table_htmx.html"
+        return super().get_template_names()
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["hx_target"] = "#currency-table"
+        return context

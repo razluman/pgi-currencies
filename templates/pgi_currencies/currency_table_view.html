@@ -1,0 +1,12 @@
+{% extends "pgi_currencies/bulma_base.html" %}
+{% load bulma_tags %}
+{% block title %}
+    List of currencies
+{% endblock title %}
+{% block content %}
+    {% if filter %}{% endif %}
+    <form action="" method="get" hx-get="" hx-target="{{ hx_target }}">
+        {{ filter.form|bulma }}
+    </form>
+    <div id="currency-table">{% include "pgi_currencies/currency_table_htmx.html" %}</div>
+{% endblock content %}
