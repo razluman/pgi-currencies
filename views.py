@@ -196,7 +196,7 @@ class CurrencyTableView(SingleTableMixin, FilterView):
 
     def get_template_names(self) -> List[str]:
         if self.request.htmx:
-            return "pgi_currencies/currency_table_htmx.html"
+            return "pgi_currencies/bulma_table2_htmx.html"
         return super().get_template_names()
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:

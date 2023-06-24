@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.db.models import Q
 from django.utils.html import format_html
 import django_tables2 as tables
@@ -23,11 +24,19 @@ class CurrencyTable(tables.Table):
                         type="checkbox"
                         name="switchcurrency"
                         class="switch is-rounded is-small"
+                        hx-post="{}"
+                        hx-target="#none"
                         {}>
                 <label for="switch{}"></label>
             </div>
         """
-        return format_html(div, record.currency, checked, record.currency)
+        return format_html(
+            div,
+            record.currency,
+            reverse("pgi_currencies:toggle-currency-display", args=[record.currency]),
+            checked,
+            record.currency,
+        )
 
 
 class CurrencyFilter(FilterSet):

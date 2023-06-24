@@ -4,30 +4,34 @@
     List of currencies
 {% endblock title %}
 {% block content %}
-    {% if filter %}{% endif %}
-    <form action=""
-          method="get"
-          hx-get=""
-          hx-target="{{ hx_target }}"
-          name="div-input"
-          hx-include="[name='div-input']">
-        <div class="field is-grouped">
-            <div class="control">
-                <input type="text"
-                       class="input"
-                       name="search"
-                       placeholder="recherche"
-                       hx-trigger="keyup changed delay:500ms"
-                       hx-get="">
-            </div>
-            <div class="select">
-                <select name="in_rate" hx-get="">
-                    <option value="1">Toutes les devises</option>
-                    <option value="2">Devises affichées dans les cours</option>
-                    <option value="3">Devises masquées dans les cours</option>
-                </select>
-            </div>
-        </div>
-    </form>
-    <div id="currency-table">{% include "pgi_currencies/bulma_table2_htmx.html" %}</div>
+    <div class="column is-half is-offset-one-quarter">
+        {% if filter %}
+            <form action=""
+                  method="get"
+                  hx-get=""
+                  hx-target="{{ hx_target }}"
+                  name="div-input"
+                  hx-include="[name='div-input']">
+                <div class="field is-grouped">
+                    <div class="control">
+                        <input type="text"
+                               class="input"
+                               name="search"
+                               placeholder="recherche"
+                               hx-trigger="keyup changed delay:500ms"
+                               hx-get="">
+                    </div>
+                    <div class="select">
+                        <select name="in_rate" hx-get="">
+                            <option value="1">Toutes les devises</option>
+                            <option value="2">Devises affichées dans les cours</option>
+                            <option value="3">Devises masquées dans les cours</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        {% endif %}
+        <div id="currency-table">{% include "pgi_currencies/bulma_table2_htmx.html" %}</div>
+        <div id="none"></div>
+    </div>
 {% endblock content %}
