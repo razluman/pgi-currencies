@@ -36,7 +36,9 @@
                                                             {% endblock table.orderable_icon %}
                                                         </span>
                                                     {% endif %}
-                                                    <a href="{% querystring table.prefixed_order_by_field=column.order_by_alias.next %}">{{ column.header }}</a>
+                                                    <a hx-target="{{ hx_target }}"
+                                                       hx-get="{% querystring table.prefixed_order_by_field=column.order_by_alias.next %}"
+                                                       href="#">{{ column.header }}</a>
                                                 {% else %}
                                                     {{ column.header }}
                                                 {% endif %}
