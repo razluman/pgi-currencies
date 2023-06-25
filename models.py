@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 
 
 class Currency(models.Model):
-    currency = models.CharField(primary_key=True, max_length=3)
-    name = models.CharField(max_length=50)
+    currency = models.CharField(primary_key=True, max_length=3, verbose_name="devise")
+    name = models.CharField(max_length=50, verbose_name="nom")
     propagation = models.TextField(blank=True)
     active = models.BooleanField(default=False)
 
@@ -36,12 +36,10 @@ class Currency(models.Model):
 
 class Rate(models.Model):
     date = models.DateField()
-    rate = models.DecimalField(max_digits=10, decimal_places=2)
-
+    rate = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="cours")
     currency = models.ForeignKey(
-        Currency, on_delete=models.CASCADE, related_name="rates"
+        Currency, on_delete=models.CASCADE, related_name="rates", verbose_name="devise"
     )
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(

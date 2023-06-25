@@ -11,7 +11,7 @@ from django_filters.views import FilterView
 from .serializers import CurrencySerializer, RateSerializer
 from .models import Currency, Rate
 from .permissions import IsRateAdmin
-from .tables import CurrencyTable, CurrencyFilter
+from .tables import CurrencyTable, CurrencyFilter, RateTable, RateFilter
 
 
 class CurrencyViewSet(ReadOnlyModelViewSet):
@@ -81,7 +81,7 @@ class RateAdminViewSet(
         serializer.save(updated_by=self.request.user)
 
 
-class CurrencyListView(ListView):
+class Suppr_CurrencyListView(ListView):
     model = Currency
     paginate_by = 10
 
@@ -202,4 +202,33 @@ class CurrencyTableView(SingleTableMixin, FilterView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["hx_target"] = "#currency-table"
+        return context
+
+
+class RateTableView(SingleTableMixin, FilterView):
+    model = Rate
+    table_class = RateTable
+    template_name = "pgi_currencies/rate_table_view.html"
+    filterset_class = RateFilter
+    paginate_by = 5
+
+    def get_queryset(self) -> QuerySet[Any]:
+        mycurrencies = self.request.session.get("mycurrencies")
+        if not mycurrencies:
+            active_currencies = Currency.objects.filter(active=True)
+            mycurrencies = [currency.currency for currency in active_currencies]
+            self.request.session["mycurrencies"] = mycurrencies
+        object_list = Rate.objects.filter(currency__in=mycurrencies).order_by(
+            "-date", "currency"
+        )
+        return object_list
+
+    def get_template_names(self) -> List[str]:
+        if self.request.htmx:
+            return "pgi_currencies/bulma_table2_htmx.html"
+        return super().get_template_names()
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["hx_target"] = "#rate-table"
         return context

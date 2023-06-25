@@ -1,0 +1,47 @@
+{% extends "pgi_currencies/bulma_base.html" %}
+{% load bulma_tags %}
+{% block title %}
+    Cours Ariary
+{% endblock title %}
+{% block content %}
+    <div class="column is-half is-offset-one-quarter is-size-7-mobile">
+        {% if filter %}
+            <div class="container"
+                 name="div-input"
+                 hx-target="{{ hx_target }}"
+                 hx-include="[name='div-input']">
+                <div class="field is-grouped">
+                    <div class="control">
+                        <input type="text"
+                               class="input has-text-centered is-small"
+                               size="4em"
+                               name="currency"
+                               placeholder="currency"
+                               hx-trigger="keyup changed delay:500ms"
+                               hx-get="">
+                    </div>
+                    <div class="control">
+                        <input type="text"
+                               class="input has-text-centered is-small"
+                               size="2em"
+                               name="year"
+                               placeholder="year"
+                               hx-trigger="keyup changed delay:500ms"
+                               hx-get="">
+                    </div>
+                    <div class="control">
+                        <input type="text"
+                               class="input has-text-centered is-small"
+                               size="2em"
+                               name="month"
+                               placeholder="month"
+                               hx-trigger="keyup changed delay:500ms"
+                               hx-get="">
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div id="rate-table" class="mt-2">{% include "pgi_currencies/bulma_table2_htmx.html" %}</div>
+        <div id="none"></div>
+    </div>
+{% endblock content %}

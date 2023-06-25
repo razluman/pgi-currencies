@@ -1,10 +1,10 @@
 {% extends "pgi_currencies/bulma_base.html" %}
 {% load bulma_tags %}
 {% block title %}
-    List of currencies
+    Devises
 {% endblock title %}
 {% block content %}
-    <div class="column is-half is-offset-one-quarter">
+    <div class="column is-half is-offset-one-quarter is-size-7-mobile">
         {% if filter %}
             <form action=""
                   method="get"
@@ -15,13 +15,14 @@
                 <div class="field is-grouped">
                     <div class="control">
                         <input type="text"
-                               class="input"
+                               class="input is-small"
                                name="search"
                                placeholder="recherche"
+                               size="7em"
                                hx-trigger="keyup changed delay:500ms"
                                hx-get="">
                     </div>
-                    <div class="select">
+                    <div class="select is-small">
                         <select name="in_rate" hx-get="">
                             <option value="1">Toutes les devises</option>
                             <option value="2">Devises affichées dans les cours</option>
@@ -31,7 +32,7 @@
                 </div>
             </form>
         {% endif %}
-        <div id="currency-table">{% include "pgi_currencies/bulma_table2_htmx.html" %}</div>
+        <div id="currency-table" class="mt-2">{% include "pgi_currencies/bulma_table2_htmx.html" %}</div>
         <div id="none"></div>
     </div>
 {% endblock content %}

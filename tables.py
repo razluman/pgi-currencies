@@ -2,8 +2,8 @@ from django.urls import reverse
 from django.db.models import Q
 from django.utils.html import format_html
 import django_tables2 as tables
-from django_filters import FilterSet, CharFilter, ChoiceFilter
-from .models import Currency
+from django_filters import FilterSet, CharFilter, ChoiceFilter, NumberFilter
+from .models import Currency, Rate
 
 
 class CurrencyTable(tables.Table):
@@ -72,3 +72,19 @@ class CurrencyFilter(FilterSet):
         if value == "3":
             queryset = queryset.exclude(currency__in=mycurrencies)
         return queryset
+
+
+class RateTable(tables.Table):
+    class Meta:
+        model = Rate
+        fields = ["currency", "date", "rate"]
+
+
+class RateFilter(FilterSet):
+    currency = CharFilter(field_name="currency__currency", lookup_expr="icontains")
+    year = NumberFilter(field_name="date__year", lookup_expr="exact")
+    month = NumberFilter(field_name="date__month", lookup_expr="exact")
+
+    class Meta:
+        model = Rate
+        fields = ["currency", "year", "month"]
