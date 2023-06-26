@@ -75,9 +75,16 @@ class CurrencyFilter(FilterSet):
 
 
 class RateTable(tables.Table):
+    rate = tables.Column(
+        attrs={"th": {"class": "has-text-right"}, "td": {"class": "has-text-right"}}
+    )
+
     class Meta:
         model = Rate
         fields = ["currency", "date", "rate"]
+
+    def render_rate(self, value):
+        return f"{value:,.2f}".replace(",", " ").replace(".", ",")
 
 
 class RateFilter(FilterSet):

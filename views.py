@@ -136,7 +136,7 @@ def toggle_currency_display(request, currency):
     return HttpResponse("")
 
 
-class RateListView(ListView):
+class Suppr_RateListView(ListView):
     model = Rate
     paginate_by = 10
 
@@ -183,7 +183,7 @@ class CurrencyTableView(SingleTableMixin, FilterView):
     table_class = CurrencyTable
     template_name = "pgi_currencies/currency_table_view.html"
     filterset_class = CurrencyFilter
-    paginate_by = 5
+    paginate_by = 15
 
     def get_queryset(self) -> QuerySet[Any]:
         object_list = Currency.objects.all().order_by("currency")
@@ -210,7 +210,7 @@ class RateTableView(SingleTableMixin, FilterView):
     table_class = RateTable
     template_name = "pgi_currencies/rate_table_view.html"
     filterset_class = RateFilter
-    paginate_by = 5
+    paginate_by = 15
 
     def get_queryset(self) -> QuerySet[Any]:
         mycurrencies = self.request.session.get("mycurrencies")
