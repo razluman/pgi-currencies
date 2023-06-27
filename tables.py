@@ -7,7 +7,7 @@ from .models import Currency, Rate
 
 
 class CurrencyTable(tables.Table):
-    in_rate = tables.Column(empty_values=(), orderable=False)
+    in_rate = tables.Column(empty_values=(), orderable=False, verbose_name="Visible")
 
     class Meta:
         model = Currency

@@ -1,4 +1,4 @@
-{% extends "pgi_currencies/bulma_base.html" %}
+{% extends "pgi_currencies/pgi_currencies_base.html" %}
 {% load bulma_tags %}
 {% block title %}
     Devises
@@ -7,20 +7,20 @@
     <div class="column is-half is-offset-one-quarter is-size-7-mobile">
         {% if filter %}
             <form action=""
-                  method="get"
                   hx-get=""
                   hx-target="{{ hx_target }}"
-                  name="div-input"
-                  hx-include="[name='div-input']">
+                  hx-include="[name='div-input']"
+                  method="get"
+                  name="div-input">
                 <div class="field is-grouped">
                     <div class="control">
                         <input type="text"
+                               hx-trigger="keyup changed delay:500ms"
+                               hx-get=""
                                class="input is-small"
                                name="search"
                                placeholder="recherche"
-                               size="7em"
-                               hx-trigger="keyup changed delay:500ms"
-                               hx-get="">
+                               size="7em">
                     </div>
                     <div class="select is-small">
                         <select name="in_rate" hx-get="">
