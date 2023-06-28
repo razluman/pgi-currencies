@@ -1,5 +1,5 @@
 from typing import Any, Dict, List
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, render
 from django.views.decorators.http import require_POST
 from django.db.models.query import QuerySet
 from django.views.generic.list import ListView
@@ -121,21 +121,6 @@ class Suppr_CurrencyListView(ListView):
         return super().get_template_names()
 
 
-@require_POST
-def toggle_currency_display(request, currency):
-    currency = currency.upper()
-    mycurrencies = request.session.get("mycurrencies")
-    if not mycurrencies:
-        active_currencies = Currency.objects.filter(active=True)
-        mycurrencies = [currency.currency for currency in active_currencies]
-    if currency in mycurrencies:
-        mycurrencies.remove(currency)
-    else:
-        mycurrencies.append(currency)
-    request.session["mycurrencies"] = mycurrencies
-    return HttpResponse("")
-
-
 class Suppr_RateListView(ListView):
     model = Rate
     paginate_by = 10
@@ -232,3 +217,30 @@ class RateTableView(SingleTableMixin, FilterView):
         context = super().get_context_data(**kwargs)
         context["hx_target"] = "#rate-table"
         return context
+
+
+@require_POST
+def toggle_currency_display(request, currency):
+    currency = currency.upper()
+    mycurrencies = request.session.get("mycurrencies")
+    if not mycurrencies:
+        active_currencies = Currency.objects.filter(active=True)
+        mycurrencies = [currency.currency for currency in active_currencies]
+    if currency in mycurrencies:
+        mycurrencies.remove(currency)
+    else:
+        mycurrencies.append(currency)
+    request.session["mycurrencies"] = mycurrencies
+    return HttpResponse("")
+
+
+def rate_exchange(request):
+    if request.htmx:
+        datalist = None
+        wizards = request.GET.get("wizards")
+        if wizards:
+            datalist = Currency.objects.filter(currency__icontains=wizards).order_by(
+                "currency"
+            )[:5]
+        return render(request, "pgi_currencies/datalist.html", {"datalist": datalist})
+    return render(request, "pgi_currencies/rate_exchange.html", {})

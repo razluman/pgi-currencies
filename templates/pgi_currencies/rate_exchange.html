@@ -3,4 +3,20 @@
     Conversion devise
 {% endblock title %}
 {% block content %}
+    <div class="field">
+        <label class="label">Devise</label>
+        <div class="control">
+            <input type="text"
+                   hx-trigger="keyup changed delay:250ms"
+                   hx-get="{% url 'pgi_currencies:rate-exchange' %}"
+                   hx-include="[name='wizards']"
+                   hx-target="#wizards-list"
+                   class="input"
+                   name="wizards"
+                   list="wizards-list">
+        </div>
+    </div>
+    <datalist id="wizards-list">
+        {% include "pgi_currencies/datalist.html" %}
+    </datalist>
 {% endblock content %}
