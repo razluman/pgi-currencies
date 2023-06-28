@@ -1,5 +1,12 @@
 {% extends "pgi_currencies/pgi_currencies_base.html" %}
-{% load bulma_tags %}
+{% load static bulma_tags %}
+{% block extra_css %}
+    <link rel="stylesheet"
+          href="{% static 'bulma-extensions/bulma-switch.min.css' %}">
+    <link rel="icon"
+          type="image/png"
+          href="{% static 'pgi_currencies/images/logo.png' %}" />
+{% endblock extra_css %}
 {% block title %}
     Devises
 {% endblock title %}
