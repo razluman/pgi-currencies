@@ -236,11 +236,20 @@ def toggle_currency_display(request, currency):
 
 def rate_exchange(request):
     if request.htmx:
-        datalist = None
-        wizards = request.GET.get("wizards")
-        if wizards:
-            datalist = Currency.objects.filter(currency__icontains=wizards).order_by(
-                "currency"
-            )[:5]
-        return render(request, "pgi_currencies/datalist.html", {"datalist": datalist})
+        if request.GET.get("input") == "currency":
+            datalist = None
+            wizards = request.GET.get("currencyinput")
+            if wizards:
+                datalist = Currency.objects.filter(
+                    currency__icontains=wizards
+                ).order_by("currency")[:5]
+            return render(
+                request,
+                "pgi_currencies/datalist.html",
+                {"datalist": datalist},
+            )
+        if request.GET.get("input") == "form":
+            return HttpResponse(
+                f"<p>{request.GET.get('currencyinput')}</p><p>{request.GET.get('dateinput')}</p>"
+            )
     return render(request, "pgi_currencies/rate_exchange.html", {})

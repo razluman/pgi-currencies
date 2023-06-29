@@ -78,13 +78,41 @@ class RateTable(tables.Table):
     rate = tables.Column(
         attrs={"th": {"class": "has-text-right"}, "td": {"class": "has-text-right"}}
     )
+    devise = tables.Column(empty_values=(), orderable=False)
+    ariary = tables.Column(empty_values=(), orderable=False)
 
     class Meta:
         model = Rate
-        fields = ["currency", "date", "rate"]
+        fields = ["currency", "date", "rate", "devise", "ariary"]
 
     def render_rate(self, value):
         return f"{value:,.2f}".replace(",", " ").replace(".", ",")
+
+    def render_devise(self, record):
+        div = """
+        <div class="field">
+            <div class="control">
+                <input type="text"
+                        id="devise{}"
+                        oninput='rateConvert("#ariary{}", {})'
+                        class="input">
+            </div>
+        </div>
+        """
+        return format_html(div, record.id, record.id, record.rate)
+
+    def render_ariary(self, record):
+        div = """
+        <div class="field">
+            <div class="control">
+                <input type="text"
+                        id="ariary{}"
+                        oninput='rateConvert("#devise{}", {},false)'
+                        class="input">
+            </div>
+        </div>
+        """
+        return format_html(div, record.id, record.id, record.rate)
 
 
 class RateFilter(FilterSet):

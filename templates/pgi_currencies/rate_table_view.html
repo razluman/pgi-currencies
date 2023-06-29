@@ -1,5 +1,5 @@
-{% extends "pgi_currencies/pgi_currencies_base.html" %}
-{% load bulma_tags %}
+{% extends "pgi_currencies/app_base.html" %}
+{% load static bulma_tags %}
 {% block title %}
     Cours Ariary
 {% endblock title %}
@@ -45,3 +45,6 @@
         <div id="none"></div>
     </div>
 {% endblock content %}
+{% block extra_javascript %}
+    <script src="{% static 'pgi_currencies/js/rate_convert.js' %}"></script>
+{% endblock extra_javascript %}

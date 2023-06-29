@@ -1,22 +1,35 @@
-{% extends "pgi_currencies/pgi_currencies_base.html" %}
+{% extends "pgi_currencies/app_base.html" %}
+{% load static %}
 {% block title %}
     Conversion devise
 {% endblock title %}
 {% block content %}
-    <div class="field">
-        <label class="label">Devise</label>
-        <div class="control">
-            <input type="text"
-                   hx-trigger="keyup changed delay:250ms"
-                   hx-get="{% url 'pgi_currencies:rate-exchange' %}"
-                   hx-include="[name='wizards']"
-                   hx-target="#wizards-list"
-                   class="input"
-                   name="wizards"
-                   list="wizards-list">
-        </div>
+    <div class="container">
+        <form hx-get="" hx-target="#ratediv" hx-vals='{"input":"form"}'>
+            <div class="field">
+                <label class="label">Devise</label>
+                <div class="control">
+                    <input type="text"
+                           hx-trigger="keyup changed delay:250ms"
+                           hx-get=""
+                           hx-include="[name='currencyinput']"
+                           hx-target="#wizards-list"
+                           hx-vals='{"input":"currency"}'
+                           class="input"
+                           name="currencyinput"
+                           list="wizards-list">
+                </div>
+            </div>
+            <datalist id="wizards-list">
+                {% include "pgi_currencies/datalist.html" %}
+            </datalist>
+            <div class="field">
+                <label class="label">Date</label>
+                <div class="control">
+                    <input type="date" class="input" name="dateinput">
+                </div>
+            </div>
+        </form>
     </div>
-    <datalist id="wizards-list">
-        {% include "pgi_currencies/datalist.html" %}
-    </datalist>
+    <div class="block" id="ratediv"></div>
 {% endblock content %}
