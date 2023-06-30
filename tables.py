@@ -75,15 +75,26 @@ class CurrencyFilter(FilterSet):
 
 
 class RateTable(tables.Table):
+    currency = tables.Column(verbose_name="Dev", attrs={"th": {"width": "13%"}})
+    date = tables.Column(attrs={"th": {"width": "15%"}})
     rate = tables.Column(
-        attrs={"th": {"class": "has-text-right"}, "td": {"class": "has-text-right"}}
+        attrs={
+            "th": {"class": "has-text-right"},
+            "td": {"class": "has-text-right"},
+            "th": {"width": "15%"},
+        }
     )
-    devise = tables.Column(empty_values=(), orderable=False)
+    devise = tables.Column(
+        empty_values=(), orderable=False, attrs={"th": {"width": "25%"}}
+    )
     ariary = tables.Column(empty_values=(), orderable=False)
 
     class Meta:
         model = Rate
         fields = ["currency", "date", "rate", "devise", "ariary"]
+
+    def render_date(self, value):
+        return value.strftime("%d/%m/%y")
 
     def render_rate(self, value):
         return f"{value:,.2f}".replace(",", " ").replace(".", ",")
@@ -94,12 +105,13 @@ class RateTable(tables.Table):
             <div class="control">
                 <input type="text"
                         id="devise{}"
-                        oninput='rateConvert("#ariary{}", {})'
-                        class="input">
+                        oninput='rateConvert("{}", {})'
+                        onblur='amountFormatOnBlur("#devise{}")'
+                        class="input has-text-right">
             </div>
         </div>
         """
-        return format_html(div, record.id, record.id, record.rate)
+        return format_html(div, record.id, record.id, record.rate, record.id)
 
     def render_ariary(self, record):
         div = """
@@ -107,12 +119,13 @@ class RateTable(tables.Table):
             <div class="control">
                 <input type="text"
                         id="ariary{}"
-                        oninput='rateConvert("#devise{}", {},false)'
-                        class="input">
+                        oninput='rateConvert("{}", {}, false)'
+                        onblur='amountFormatOnBlur("#ariary{}")'
+                        class="input has-text-right">
             </div>
         </div>
         """
-        return format_html(div, record.id, record.id, record.rate)
+        return format_html(div, record.id, record.id, record.rate, record.id)
 
 
 class RateFilter(FilterSet):
