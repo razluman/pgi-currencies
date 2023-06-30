@@ -107,7 +107,7 @@ class RateTable(tables.Table):
                         id="devise{}"
                         oninput='rateConvert("{}", {})'
                         onblur='amountFormatOnBlur("#devise{}")'
-                        class="input has-text-right">
+                        class="input has-text-right is-small">
             </div>
         </div>
         """
@@ -121,7 +121,7 @@ class RateTable(tables.Table):
                         id="ariary{}"
                         oninput='rateConvert("{}", {}, false)'
                         onblur='amountFormatOnBlur("#ariary{}")'
-                        class="input has-text-right">
+                        class="input has-text-right is-small">
             </div>
         </div>
         """
