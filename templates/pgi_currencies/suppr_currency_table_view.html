@@ -1,14 +1,12 @@
 {% extends "pgi_currencies/app_base.html" %}
 {% load static bulma_tags %}
-{% block bootstrap5_title %}
+{% block extra_extra_css %}
+    <link rel="stylesheet"
+          href="{% static 'bulma-extensions/bulma-switch.min.css' %}">
+{% endblock extra_extra_css %}
+{% block title %}
     Devises
-{% endblock bootstrap5_title %}
-{% block bootstrap5_content %}
-    <div class="container">
-        <div id="currency-table">{% include "pgi_currencies/bootstrap5_table2_htmx.html" %}</div>
-        <div id="none"></div>
-    </div>
-{% endblock bootstrap5_content %}
+{% endblock title %}
 {% block content %}
     <div class="column is-half is-offset-one-quarter is-size-7-mobile">
         {% if filter %}

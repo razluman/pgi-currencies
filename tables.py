@@ -19,11 +19,11 @@ class CurrencyTable(tables.Table):
         else:
             checked = ""
         div = """
-        <div class="field">
+        <div class="form-check form-switch">
                 <input id="switch{}"
                         type="checkbox"
                         name="switchcurrency"
-                        class="switch is-rounded is-small"
+                        class="form-check-input"
                         hx-post="{}"
                         hx-target="#none"
                         {}>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE|default:'en_us' }}">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Page title -->
+        <title>
+            {% block bootstrap5_title %}
+                django-bootstrap5 template title
+            {% endblock bootstrap5_title %}
+        </title>
+        <!-- Bootstrap CSS -->
+        {% bootstrap_css %}
+        {% block bootstrap5_extra_head %}
+        {% endblock bootstrap5_extra_head %}
+    </head>
+    <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+        {% block bootstrap5_before_content %}
+        {% endblock bootstrap5_before_content %}
+        {% block bootstrap5_content %}
+            CONTENT
+        {% endblock bootstrap5_content %}
+        {% block bootstrap5_after_content %}
+        {% endblock bootstrap5_after_content %}
+        <!-- Bootstrap JavaScript if it is in body -->
+        {% bootstrap_javascript %}
+        <script src="{% static 'htmx.min.js' %}"></script>
+        {% block bootstrap5_extra_script %}
+        {% endblock bootstrap5_extra_script %}
+    </body>
+</html>
