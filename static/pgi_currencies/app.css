@@ -1,0 +1,12 @@
+@media (max-width: 991.98px) {
+
+    .table-container {
+        font-size: small;
+    }
+
+    .page-link,
+    .form-control-sm,
+    .form-select-sm {
+        font-size: x-small;
+    }
+}

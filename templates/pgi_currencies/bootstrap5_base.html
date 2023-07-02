@@ -8,14 +8,14 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap CSS -->
+        {% bootstrap_css %}
         <!-- Page title -->
         <title>
             {% block bootstrap5_title %}
                 django-bootstrap5 template title
             {% endblock bootstrap5_title %}
         </title>
-        <!-- Bootstrap CSS -->
-        {% bootstrap_css %}
         {% block bootstrap5_extra_head %}
         {% endblock bootstrap5_extra_head %}
     </head>
