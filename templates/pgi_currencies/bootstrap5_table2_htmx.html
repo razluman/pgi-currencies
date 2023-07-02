@@ -71,7 +71,7 @@
         {% block pagination %}
             {% if table.page and table.paginator.num_pages > 1 %}
                 <nav aria-label="Table navigation" hx-target="{{ hx_target }}">
-                    <ul class="pagination justify-content-center pagination-circle">
+                    <ul class="pagination justify-content-center">
                         {% block pagination.previous %}
                             {% if table.page.has_previous %}
                                 <li class="previous page-item">
@@ -93,18 +93,15 @@
                                 </li>
                             {% endif %}
                         {% endblock pagination.previous %}
-                        {% comment %} <li class="page-item"> {% endcomment %}
-                        <li>
-                            <span class="page-link" name="search-page">
-                                <input type="text"
-                                       class="form-text text-center shadow-none"
-                                       name="page"
-                                       value="{{ page_obj.number }}"
-                                       hx-trigger="keyup changed delay:1s"
-                                       hx-get="{% querystring %}"
-                                       hx-include="[name='search-page']"
-                                       size="2">
-                            </span>
+                        <li class="page-item">
+                            <input type="text"
+                                   class="form-text text-center page-link mt-0"
+                                   name="page"
+                                   value="{{ page_obj.number }}"
+                                   hx-trigger="keyup changed delay:1s"
+                                   hx-get="{% querystring %}"
+                                   hx-include="[name='search-page']"
+                                   size="1">
                         </li>
                         {% block pagination.next %}
                             {% if table.page.has_next %}

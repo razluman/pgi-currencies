@@ -1,9 +1,51 @@
 {% extends "pgi_currencies/bootstrap5_base.html" %}
 {% load static %}
+{% block bootstrap5_title %}
+    django-bootstrap5 template title
+{% endblock bootstrap5_title %}
 {% block bootstrap5_extra_head %}
     <link rel="icon"
           type="image/png"
           href="{% static 'pgi_currencies/images/logo.png' %}" />
+    <link rel="stylesheet"
+          href="{% static 'pgi_currencies/css/bootstrap5_table.css' %}">
     {% block extra_css %}
     {% endblock extra_css %}
 {% endblock bootstrap5_extra_head %}
+{% block bootstrap5_before_content %}
+    <div class="container mb-2">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'pgi_currencies:rates-list' %}">
+                    <img src="{% static 'pgi_currencies/images/logo.png' %}"
+                         alt=""
+                         width="30"
+                         height="24">
+                </a>
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarNavAltMarkup"
+                        aria-controls="navbarNavAltMarkup"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="{% url 'pgi_currencies:currencies-list' %}">Devises</a>
+                        <a class="nav-link" href="{% url 'pgi_currencies:rates-list' %}">Cours</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+{% endblock bootstrap5_before_content %}
+{% block bootstrap5_content %}
+    CONTENT
+{% endblock bootstrap5_content %}
+{% block bootstrap5_after_content %}
+{% endblock bootstrap5_after_content %}
+{% block bootstrap5_extra_script %}
+    <script src="{% static 'pgi_currencies/js/bootstrap5_navbar.js' %}"></script>
+{% endblock bootstrap5_extra_script %}

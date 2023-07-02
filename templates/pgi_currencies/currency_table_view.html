@@ -1,44 +1,41 @@
 {% extends "pgi_currencies/app_base.html" %}
 {% load static bulma_tags %}
+{% block extra_css %}
+    <link rel="stylesheet"
+          href="{% static 'pgi_currencies/css/pgi_currencies_currency.css' %}">
+{% endblock extra_css %}
 {% block bootstrap5_title %}
     Devises
 {% endblock bootstrap5_title %}
 {% block bootstrap5_content %}
     <div class="container">
-        <div id="currency-table">{% include "pgi_currencies/bootstrap5_table2_htmx.html" %}</div>
-        <div id="none"></div>
-    </div>
-{% endblock bootstrap5_content %}
-{% block content %}
-    <div class="column is-half is-offset-one-quarter is-size-7-mobile">
         {% if filter %}
             <form action=""
                   hx-get=""
                   hx-target="{{ hx_target }}"
                   hx-include="[name='div-input']"
                   method="get"
+                  class="row"
                   name="div-input">
-                <div class="field is-grouped">
-                    <div class="control">
-                        <input type="text"
-                               hx-trigger="keyup changed delay:500ms"
-                               hx-get=""
-                               class="input is-small"
-                               name="search"
-                               placeholder="recherche"
-                               size="7em">
-                    </div>
-                    <div class="select is-small">
-                        <select name="in_rate" hx-get="">
-                            <option value="1">Toutes les devises</option>
-                            <option value="2">Devises affichées dans les cours</option>
-                            <option value="3">Devises masquées dans les cours</option>
-                        </select>
-                    </div>
+                <div class="col-auto mb-2">
+                    <input type="text"
+                           hx-trigger="keyup changed delay:500ms"
+                           hx-get=""
+                           class="form-control form-control-sm"
+                           name="search"
+                           placeholder="recherche"
+                           size="7em">
+                </div>
+                <div class="col-auto mb-2">
+                    <select name="in_rate" hx-get="" class="form-select form-select-sm">
+                        <option value="1">Toutes les devises</option>
+                        <option value="2">Devises affichées dans les cours</option>
+                        <option value="3">Devises masquées dans les cours</option>
+                    </select>
                 </div>
             </form>
         {% endif %}
-        <div id="currency-table" class="mt-2">{% include "pgi_currencies/bulma_table2_htmx.html" %}</div>
+        <div id="currency-table">{% include "pgi_currencies/bootstrap5_table2_htmx.html" %}</div>
         <div id="none"></div>
     </div>
-{% endblock content %}
+{% endblock bootstrap5_content %}
