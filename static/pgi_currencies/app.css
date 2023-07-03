@@ -1,3 +1,4 @@
+/* lg */
 @media (max-width: 991.98px) {
 
     .table-container {
@@ -5,8 +6,12 @@
     }
 
     .page-link,
-    .form-control-sm,
-    .form-select-sm {
+    .form-control-xsm,
+    .form-select-xsm {
         font-size: x-small;
+    }
+
+    .form-control-smaller {
+        font-size: smaller;
     }
 }

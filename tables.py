@@ -75,23 +75,15 @@ class CurrencyFilter(FilterSet):
 
 
 class RateTable(tables.Table):
-    currency = tables.Column(verbose_name="Dev", attrs={"th": {"width": "13%"}})
-    date = tables.Column(attrs={"th": {"width": "15%"}})
-    rate = tables.Column(
-        attrs={
-            "th": {"class": "has-text-right"},
-            "td": {"class": "has-text-right"},
-            "th": {"width": "15%"},
-        }
+    conversion = tables.Column(
+        empty_values=(),
+        orderable=False,
     )
-    devise = tables.Column(
-        empty_values=(), orderable=False, attrs={"th": {"width": "25%"}}
-    )
-    ariary = tables.Column(empty_values=(), orderable=False)
 
     class Meta:
         model = Rate
-        fields = ["currency", "date", "rate", "devise", "ariary"]
+        fields = ["currency", "date", "rate", "conversion"]
+        row_attrs = {"style": "vertical-align:middle;"}
 
     def render_date(self, value):
         return value.strftime("%d/%m/%y")
@@ -99,33 +91,37 @@ class RateTable(tables.Table):
     def render_rate(self, value):
         return f"{value:,.2f}".replace(",", " ").replace(".", ",")
 
-    def render_devise(self, record):
+    def render_conversion(self, record):
         div = """
-        <div class="field">
-            <div class="control">
-                <input type="text"
-                        id="devise{}"
-                        oninput='rateConvert("{}", {})'
-                        onblur='amountFormatOnBlur("#devise{}")'
-                        class="input has-text-right is-small">
-            </div>
+        <div class="mb-1">
+            <input type="text"
+                    id="devise{}"
+                    oninput='rateConvert("{}", {})'
+                    onblur='amountFormatOnBlur("#devise{}")'
+                    style="text-align:right;"
+                    placeholder="{}"
+                    class="form-control form-control-sm form-control-smaller">
         </div>
+        <input type="text"
+                id="ariary{}"
+                oninput='rateConvert("{}", {}, false)'
+                onblur='amountFormatOnBlur("#ariary{}")'
+                style="text-align:right;"
+                placeholder="MGA"
+                class="form-control form-control-sm form-control-smaller">
         """
-        return format_html(div, record.id, record.id, record.rate, record.id)
-
-    def render_ariary(self, record):
-        div = """
-        <div class="field">
-            <div class="control">
-                <input type="text"
-                        id="ariary{}"
-                        oninput='rateConvert("{}", {}, false)'
-                        onblur='amountFormatOnBlur("#ariary{}")'
-                        class="input has-text-right is-small">
-            </div>
-        </div>
-        """
-        return format_html(div, record.id, record.id, record.rate, record.id)
+        return format_html(
+            div,
+            record.id,
+            record.id,
+            record.rate,
+            record.id,
+            record.currency,
+            record.id,
+            record.id,
+            record.rate,
+            record.id,
+        )
 
 
 class RateFilter(FilterSet):

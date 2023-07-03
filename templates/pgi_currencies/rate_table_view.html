@@ -1,51 +1,50 @@
 {% extends "pgi_currencies/app_base.html" %}
 {% load static bulma_tags %}
-{% block title %}
+{% block bootstrap5_title %}
     Cours Ariary
-{% endblock title %}
-{% block content %}
-    {% comment %} <div class="column is-half is-offset-one-quarter is-size-7-mobile"> {% endcomment %}
-    <div class="column is-three-quarters">
-        {% if filter %}
-            <div class="container"
-                 name="div-input"
-                 hx-target="{{ hx_target }}"
-                 hx-include="[name='div-input']">
-                <div class="field is-grouped">
-                    <div class="control">
+{% endblock bootstrap5_title %}
+{% block bootstrap5_content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col col-lg-4">
+                <form action=""
+                      hx-get=""
+                      hx-target="{{ hx_target }}"
+                      hx-include="[name='div-input']"
+                      method="get"
+                      class="row"
+                      name="div-input">
+                    <div class="col-auto mb-2">
                         <input type="text"
-                               class="input has-text-centered is-small"
-                               size="4em"
+                               hx-trigger="keyup changed delay:500ms"
+                               hx-get=""
+                               class="form-control form-control-sm text-center"
                                name="currency"
-                               placeholder="currency"
-                               hx-trigger="keyup changed delay:500ms"
-                               hx-get="">
+                               placeholder="devise"
+                               size="4em">
                     </div>
-                    <div class="control">
+                    <div class="col-auto mb-2">
                         <input type="text"
-                               class="input has-text-centered is-small"
-                               size="2em"
+                               hx-trigger="keyup changed delay:500ms"
+                               hx-get=""
+                               class="form-control form-control-sm text-center"
                                name="year"
-                               placeholder="year"
-                               hx-trigger="keyup changed delay:500ms"
-                               hx-get="">
+                               placeholder="année"
+                               size="2em">
                     </div>
-                    <div class="control">
+                    <div class="col-auto mb-2">
                         <input type="text"
-                               class="input has-text-centered is-small"
-                               size="2em"
-                               name="month"
-                               placeholder="month"
                                hx-trigger="keyup changed delay:500ms"
-                               hx-get="">
+                               hx-get=""
+                               class="form-control form-control-sm text-center"
+                               name="month"
+                               placeholder="mois"
+                               size="2em">
                     </div>
-                </div>
+                </form>
+                <div id="rate-table">{% include "pgi_currencies/bootstrap5_table2_htmx.html" %}</div>
+                <div id="none"></div>
             </div>
-        {% endif %}
-        <div id="rate-table" class="mt-2">{% include "pgi_currencies/bulma_table2_htmx.html" %}</div>
-        <div id="none"></div>
+        </div>
     </div>
-{% endblock content %}
-{% block extra_javascript %}
-    <script src="{% static 'pgi_currencies/js/rate_convert.js' %}"></script>
-{% endblock extra_javascript %}
+{% endblock bootstrap5_content %}
