@@ -15,3 +15,15 @@
         font-size: smaller;
     }
 }
+
+/*table.table thead th.orderable {
+    background: url('images/true.png') no-repeat center right;
+}
+
+table.table thead th.asc {
+    background: url('images/false.png') no-repeat center right;
+}
+
+table.table thead th.desc {
+    background: url('images/delete.png') no-repeat center right;
+}*/

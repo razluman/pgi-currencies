@@ -18,7 +18,7 @@ router.register("admin/rate", RateAdminViewSet, basename="admin-rate")
 app_name = "pgi_currencies"
 urlpatterns = [
     path("api/", include(router.urls)),
-    path("", rate_exchange, name="rates-list"),
+    path("", RateTableView.as_view(), name="index"),
     path("devise/", CurrencyTableView.as_view(), name="currencies-list"),
     path("cours/", RateTableView.as_view(), name="rates-list"),
     path(

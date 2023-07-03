@@ -1,5 +1,6 @@
 {% load django_tables2 %}
 {% load i18n %}
+{% load pgi_currencies_template %}
 {% block table-wrapper %}
     <div class="table-container table-responsive">
         {% block table %}
@@ -10,12 +11,23 @@
                             <tr>
                                 {% for column in table.columns %}
                                     <th {{ column.attrs.th.as_html }} scope="col">
+                                        {{ column.header }}
                                         {% if column.orderable %}
+                                            {% is_descending column.order_by as descending %}
                                             <a hx-target="{{ hx_target }}"
                                                href=""
-                                               hx-get="{% querystring table.prefixed_order_by_field=column.order_by_alias.next %}">{{ column.header }}</a>
-                                        {% else %}
-                                            {{ column.header }}
+                                               class="link-offset-3 link-underline link-underline-opacity-0"
+                                               hx-get="{% querystring table.prefixed_order_by_field=column.order_by_alias.next %}">
+                                                {% if column.is_ordered %}
+                                                    {% if descending %}
+                                                        <i class="fas fa-sort-down"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-sort-up"></i>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <i class="fas fa-sort" aria-hidden="true"></i>
+                                                {% endif %}
+                                            </a>
                                         {% endif %}
                                     </th>
                                 {% endfor %}

@@ -7,6 +7,7 @@ from .models import Currency, Rate
 
 
 class CurrencyTable(tables.Table):
+    currency = tables.Column(verbose_name="Dev")
     in_rate = tables.Column(empty_values=(), orderable=False, verbose_name="Visible")
 
     class Meta:
@@ -75,6 +76,7 @@ class CurrencyFilter(FilterSet):
 
 
 class RateTable(tables.Table):
+    currency = tables.Column(verbose_name="Dev")
     conversion = tables.Column(
         empty_values=(),
         orderable=False,
