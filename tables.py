@@ -7,7 +7,10 @@ from .models import Currency, Rate
 
 
 class CurrencyTable(tables.Table):
-    currency = tables.Column(verbose_name="Dev")
+    currency = tables.Column(
+        verbose_name="Dev",
+        attrs={"td": {"class": "text-center"}, "th": {"style": "min-width:60px"}},
+    )
     in_rate = tables.Column(empty_values=(), orderable=False, verbose_name="Visible")
 
     class Meta:
@@ -20,7 +23,7 @@ class CurrencyTable(tables.Table):
         else:
             checked = ""
         div = """
-        <div class="form-check form-switch">
+        <div class="form-check form-switch d-flex justify-content-center">
                 <input id="switch{}"
                         type="checkbox"
                         name="switchcurrency"
@@ -85,7 +88,7 @@ class RateTable(tables.Table):
     class Meta:
         model = Rate
         fields = ["currency", "date", "rate", "conversion"]
-        row_attrs = {"style": "vertical-align:middle;"}
+        row_attrs = {"class": "align-middle"}
 
     def render_date(self, value):
         return value.strftime("%d/%m/%y")
@@ -100,17 +103,15 @@ class RateTable(tables.Table):
                     id="devise{}"
                     oninput='rateConvert("{}", {})'
                     onblur='amountFormatOnBlur("#devise{}")'
-                    style="text-align:right;"
                     placeholder="{}"
-                    class="form-control form-control-sm form-control-smaller">
+                    class="form-control form-control-sm form-control-smaller text-end">
         </div>
         <input type="text"
                 id="ariary{}"
                 oninput='rateConvert("{}", {}, false)'
                 onblur='amountFormatOnBlur("#ariary{}")'
-                style="text-align:right;"
                 placeholder="MGA"
-                class="form-control form-control-sm form-control-smaller">
+                class="form-control form-control-sm form-control-smaller text-end">
         """
         return format_html(
             div,

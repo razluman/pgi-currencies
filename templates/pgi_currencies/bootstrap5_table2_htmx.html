@@ -4,31 +4,29 @@
 {% block table-wrapper %}
     <div class="table-container table-responsive">
         {% block table %}
-            <table {% render_attrs table.attrs class="table table-striped table-hover table-sm" %}>
+            <table {% render_attrs table.attrs class="table table-striped table-hover" %}>
                 {% block table.thead %}
                     {% if table.show_header %}
                         <thead {{ table.attrs.thead.as_html }}>
-                            <tr>
+                            <tr class="text-center">
                                 {% for column in table.columns %}
                                     <th {{ column.attrs.th.as_html }} scope="col">
-                                        {{ column.header }}
                                         {% if column.orderable %}
                                             {% is_descending column.order_by as descending %}
                                             <a hx-target="{{ hx_target }}"
-                                               href=""
-                                               class="link-offset-3 link-underline link-underline-opacity-0"
                                                hx-get="{% querystring table.prefixed_order_by_field=column.order_by_alias.next %}">
                                                 {% if column.is_ordered %}
                                                     {% if descending %}
-                                                        <i class="fas fa-sort-down"></i>
+                                                        <i class="fa-solid fa-sort-down float-end" aria-hidden="true"></i>
                                                     {% else %}
-                                                        <i class="fas fa-sort-up"></i>
+                                                        <i class="fa-solid fa-sort-up float-end" aria-hidden="true"></i>
                                                     {% endif %}
                                                 {% else %}
-                                                    <i class="fas fa-sort" aria-hidden="true"></i>
+                                                    <i class="fa-solid fa-sort float-end" aria-hidden="true"></i>
                                                 {% endif %}
                                             </a>
                                         {% endif %}
+                                        {{ column.header }}
                                     </th>
                                 {% endfor %}
                             </tr>
