@@ -14,19 +14,26 @@
                                         {% if column.orderable %}
                                             {% is_descending column.order_by as descending %}
                                             <a hx-target="{{ hx_target }}"
+                                               href=""
+                                               class="link-dark text-decoration-none"
                                                hx-get="{% querystring table.prefixed_order_by_field=column.order_by_alias.next %}">
                                                 {% if column.is_ordered %}
                                                     {% if descending %}
-                                                        <i class="fa-solid fa-sort-down float-end" aria-hidden="true"></i>
+                                                        <i class="fa-solid fa-sort-down fa-xs float-end link-warning"
+                                                           aria-hidden="true"></i>
                                                     {% else %}
-                                                        <i class="fa-solid fa-sort-up float-end" aria-hidden="true"></i>
+                                                        <i class="fa-solid fa-sort-up fa-xs float-end link-warning"
+                                                           aria-hidden="true"></i>
                                                     {% endif %}
                                                 {% else %}
-                                                    <i class="fa-solid fa-sort float-end" aria-hidden="true"></i>
+                                                    <i class="fa-solid fa-sort fa-xs float-end link-warning"
+                                                       aria-hidden="true"></i>
                                                 {% endif %}
+                                                {{ column.header }}
                                             </a>
+                                        {% else %}
+                                            {{ column.header }}
                                         {% endif %}
-                                        {{ column.header }}
                                     </th>
                                 {% endfor %}
                             </tr>
@@ -105,7 +112,7 @@
                         {% endblock pagination.previous %}
                         <li class="page-item">
                             <input type="text"
-                                   class="form-text text-center page-link mt-0"
+                                   class="form-text text-center page-link link-dark fw-bold mt-0"
                                    name="page"
                                    value="{{ page_obj.number }}"
                                    hx-trigger="keyup changed delay:1s"

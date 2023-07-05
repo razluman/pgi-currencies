@@ -7,10 +7,7 @@ from .models import Currency, Rate
 
 
 class CurrencyTable(tables.Table):
-    currency = tables.Column(
-        verbose_name="Dev",
-        attrs={"td": {"class": "text-center"}, "th": {"style": "min-width:60px"}},
-    )
+    currency = tables.Column(verbose_name="Dev", attrs={"td": {"class": "text-center"}})
     in_rate = tables.Column(empty_values=(), orderable=False, verbose_name="Visible")
 
     class Meta:
@@ -79,25 +76,66 @@ class CurrencyFilter(FilterSet):
 
 
 class RateTable(tables.Table):
-    currency = tables.Column(verbose_name="Dev")
-    conversion = tables.Column(
-        empty_values=(),
-        orderable=False,
-    )
+    currency = tables.Column(verbose_name="Dev", attrs={"td": {"class": "text-center"}})
+    date = tables.Column(attrs={"td": {"class": "text-center"}})
 
     class Meta:
         model = Rate
-        fields = ["currency", "date", "rate", "conversion"]
+        fields = ["currency", "date", "rate"]
         row_attrs = {"class": "align-middle"}
 
     def render_date(self, value):
         return value.strftime("%d/%m/%y")
 
-    def render_rate(self, value):
-        return f"{value:,.2f}".replace(",", " ").replace(".", ",")
-
-    def render_conversion(self, record):
+    def render_rate(self, value, record):
         div = """
+        <div class="text-end">
+            <span id="span{}">{}</span>
+            <a class="link-success" onclick='document.querySelector("#rate{}").classList.toggle("d-none");document.querySelector("#span{}").classList.toggle("fw-bold");'>
+                <i class="fa-solid fa-calculator float-end ms-3" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div id="rate{}" class="d-none">
+            <div class="mb-1">
+                <input type="text"
+                    id="devise{}"
+                    oninput='rateConvert("{}", {})'
+                    onblur='amountFormatOnBlur("#devise{}")'
+                    placeholder="{}"
+                    class="form-control form-control-sm form-control-smaller text-end">
+            </div>
+            <input type="text"
+                id="ariary{}"
+                oninput='rateConvert("{}", {}, false)'
+                onblur='amountFormatOnBlur("#ariary{}")'
+                placeholder="MGA"
+                class="form-control form-control-sm form-control-smaller text-end">
+        </div>
+        """
+        return format_html(
+            div,
+            # rate
+            record.id,
+            f"{value:,.2f}".replace(",", " ").replace(".", ","),
+            record.id,
+            record.id,
+            record.id,
+            # devise
+            record.id,
+            record.id,
+            value,
+            record.id,
+            record.currency,
+            # ariary
+            record.id,
+            record.id,
+            value,
+            record.id,
+        )
+
+    def old_render_rate(self, value, record):
+        div = """
+        <div class="text-center fw-bold">{}</div>
         <div class="mb-1">
             <input type="text"
                     id="devise{}"
@@ -115,6 +153,7 @@ class RateTable(tables.Table):
         """
         return format_html(
             div,
+            f"{value:,.2f}".replace(",", " ").replace(".", ","),
             record.id,
             record.id,
             record.rate,
