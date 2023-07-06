@@ -21,21 +21,26 @@ class CurrencyTable(tables.Table):
             checked = ""
         div = """
         <div class="form-check form-switch d-flex justify-content-center">
-                <input id="switch{}"
-                        type="checkbox"
-                        name="switchcurrency"
-                        class="form-check-input"
-                        hx-post="{}"
-                        hx-target="#none"
-                        {}>
-                <label for="switch{}"></label>
-            </div>
+            <input id="switch{}"
+                    type="checkbox"
+                    name="switchcurrency"
+                    class="form-check-input"
+                    hx-post="{}"
+                    hx-indicator="#switchindicator{}"
+                    hx-target="#none"
+                    {}>
+            <label for="switch{}">
+                <i class="fas fa-xs fa-spinner fa-pulse htmx-indicator float-end ms-2 mt-2" id="switchindicator{}"></i>
+            </label>
+        </div>
         """
         return format_html(
             div,
             record.currency,
             reverse("pgi_currencies:toggle-currency-display", args=[record.currency]),
+            record.currency,
             checked,
+            record.currency,
             record.currency,
         )
 

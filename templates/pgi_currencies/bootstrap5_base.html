@@ -19,7 +19,7 @@
               rel="stylesheet"
               type="text/css">
         <!-- Bootstrap CSS -->
-        {% bootstrap_css %}
+        <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
         <!-- Page title -->
         <title>
             {% block bootstrap5_title %}
@@ -37,8 +37,9 @@
         {% endblock bootstrap5_content %}
         {% block bootstrap5_after_content %}
         {% endblock bootstrap5_after_content %}
-        <!-- Bootstrap JavaScript if it is in body -->
-        {% bootstrap_javascript %}
+        <!-- Bootstrap JavaScript -->
+        <script src="{% static 'bootstrap.bundle.min.js' %}"></script>
+        <!-- HTMX JavaScript -->
         <script src="{% static 'htmx.min.js' %}"></script>
         {% block bootstrap5_extra_script %}
         {% endblock bootstrap5_extra_script %}
