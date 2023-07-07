@@ -19,30 +19,22 @@ class CurrencyTable(tables.Table):
             checked = "checked=" "checked" ""
         else:
             checked = ""
-        div = """
-        <div class="form-check form-switch d-flex justify-content-center">
-            <input id="switch{}"
+        div = f"""
+        <div id="switch{record.currency}divinput" class="form-check form-switch d-flex justify-content-center">
+            <input id="switch{record.currency}"
                     type="checkbox"
-                    name="switchcurrency"
                     class="form-check-input"
-                    hx-post="{}"
-                    hx-indicator="#switchindicator{}"
+                    hx-post="{reverse("pgi_currencies:toggle-currency-display", args=[record.currency])}"
                     hx-target="#none"
-                    {}>
-            <label for="switch{}">
-                <i class="fas fa-xs fa-spinner fa-pulse htmx-indicator float-end ms-2 mt-2" id="switchindicator{}"></i>
+                    {checked}>
+            <label for="switch{record.currency}">
             </label>
         </div>
+        <div id="switch{record.currency}divspinner" class="form-check form-switch d-flex justify-content-center d-none">
+            <i class="fas fa-spinner fa-spin form-check-input"></i>
+        </div>
         """
-        return format_html(
-            div,
-            record.currency,
-            reverse("pgi_currencies:toggle-currency-display", args=[record.currency]),
-            record.currency,
-            checked,
-            record.currency,
-            record.currency,
-        )
+        return format_html(div)
 
 
 class CurrencyFilter(FilterSet):

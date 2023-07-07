@@ -34,3 +34,25 @@
         <div id="none"></div>
     </div>
 {% endblock bootstrap5_content %}
+{% block after_extra_script %}
+    <script>
+        document.addEventListener('htmx:beforeRequest', function(evt) {
+            if (evt.detail.elt.classList.contains("form-check-input")) {
+                id = evt.detail.elt.id;
+                divinput = document.querySelector("#"+id+"divinput");
+                divinput.classList.add("d-none");
+                divspinner = document.querySelector("#"+id+"divspinner");
+                divspinner.classList.remove("d-none");
+            }
+        });
+        document.addEventListener('htmx:afterRequest', function(evt) {
+            if (evt.detail.elt.classList.contains("form-check-input")) {
+                id = evt.detail.elt.id;
+                divinput = document.querySelector("#"+id+"divinput");
+                divinput.classList.remove("d-none");
+                divspinner = document.querySelector("#"+id+"divspinner");
+                divspinner.classList.add("d-none");
+            }
+        });
+    </script>
+{% endblock after_extra_script %}

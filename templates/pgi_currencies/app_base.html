@@ -47,4 +47,6 @@
 {% endblock bootstrap5_after_content %}
 {% block bootstrap5_extra_script %}
     <script src="{% static 'pgi_currencies/app.js' %}"></script>
+    {% block after_extra_script %}
+    {% endblock after_extra_script %}
 {% endblock bootstrap5_extra_script %}

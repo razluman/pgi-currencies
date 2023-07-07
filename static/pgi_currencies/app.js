@@ -7,25 +7,6 @@ window.addEventListener("load", () => {
     });
 });
 
-function rateConvert(id, rate, toAriary = true) {
-    let source = "devise";
-    let target = "ariary";
-    if (!toAriary) {
-        source = "ariary";
-        target = "devise";
-    };
-    amount = document.querySelector("#" + source + id).value;
-    amount = stringToFloat(amount);
-    if (toAriary) {
-        amount = amount * rate
-    } else {
-        if (rate != 0) amount = amount / rate
-    }
-    amount = floatToString(amount);
-    if (amount == "0,00") amount = "";
-    document.querySelector("#" + target + id).value = amount
-}
-
 function amountFormatOnBlur(id) {
     input = document.querySelector(id);
     amount = input.value;
@@ -47,4 +28,23 @@ function floatToString(amount) {
     amount = amount.toString().replace(".", ",");
     amount = amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     return amount;
+}
+
+function rateConvert(id, rate, toAriary = true) {
+    let source = "devise";
+    let target = "ariary";
+    if (!toAriary) {
+        source = "ariary";
+        target = "devise";
+    };
+    amount = document.querySelector("#" + source + id).value;
+    amount = stringToFloat(amount);
+    if (toAriary) {
+        amount = amount * rate
+    } else {
+        if (rate != 0) amount = amount / rate
+    }
+    amount = floatToString(amount);
+    if (amount == "0,00") amount = "";
+    document.querySelector("#" + target + id).value = amount
 }
