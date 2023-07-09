@@ -1,6 +1,7 @@
 {% extends "pgi_currencies/app_base.html" %}
+{% load i18n %}
 {% block bootstrap5_title %}
-    Devises
+    {% trans "Currencies" %}
 {% endblock bootstrap5_title %}
 {% block bootstrap5_content %}
     <div class="container">
@@ -18,14 +19,14 @@
                            hx-get=""
                            class="form-control form-control-sm"
                            name="search"
-                           placeholder="recherche"
+                           placeholder='{% trans "search" %}'
                            size="7em">
                 </div>
                 <div class="col-auto mb-2">
                     <select name="in_rate" hx-get="" class="form-select form-select-sm">
-                        <option value="1">Toutes les devises</option>
-                        <option value="2">Devises affichées dans les cours</option>
-                        <option value="3">Devises masquées dans les cours</option>
+                        <option value="1">{% trans "All currencies" %}</option>
+                        <option value="2">{% trans "Visible in rates" %}</option>
+                        <option value="3">{% trans "Hidden in rates" %}</option>
                     </select>
                 </div>
             </form>
