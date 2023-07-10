@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-09 09:18+0000\n"
+"POT-Creation-Date: 2023-07-10 12:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: models.py:8 models.py:47
+#: models.py:8 models.py:47 templates/pgi_currencies/rate_table_view.html:23
 #, fuzzy
 #| msgid "currencies"
 msgid "currency"
@@ -56,9 +56,14 @@ msgstr "Dev"
 msgid "Visible"
 msgstr "Visible"
 
+#: templates/pgi_currencies/app_base.html:36
 #: templates/pgi_currencies/currency_table_view.html:4
 msgid "Currencies"
 msgstr "Devises"
+
+#: templates/pgi_currencies/app_base.html:37
+msgid "Rates"
+msgstr "Cours"
 
 #: templates/pgi_currencies/currency_table_view.html:22
 msgid "search"
@@ -78,4 +83,12 @@ msgstr "Non visible dans les cours"
 
 #: templates/pgi_currencies/rate_table_view.html:4
 msgid "Ariary Rates"
-msgstr ""
+msgstr "Cours de l'Ariary"
+
+#: templates/pgi_currencies/rate_table_view.html:32
+msgid "year"
+msgstr "année"
+
+#: templates/pgi_currencies/rate_table_view.html:41
+msgid "month"
+msgstr "mois"
