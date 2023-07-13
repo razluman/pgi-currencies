@@ -1,3 +1,4 @@
+from typing import Any
 import datetime
 from django.contrib import admin
 from import_export.resources import ModelResource
@@ -5,7 +6,19 @@ from import_export.admin import ImportExportMixin
 from .models import Currency, Rate
 
 
-class CurrencyAdmin(ImportExportMixin, admin.ModelAdmin):
+class CreatedUpdatedModelAdmin(ImportExportMixin, admin.ModelAdmin):
+    exclude = ["created_by", "updated_by"]
+
+    def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+        user = request.user
+        obj.updated_by = user
+        if not change:
+            obj.created_by = user
+        return super().save_model(request, obj, form, change)
+
+
+@admin.register(Currency)
+class CurrencyAdmin(CreatedUpdatedModelAdmin):
     list_display = (
         "currency",
         "name",
@@ -36,7 +49,8 @@ class CurrencyAdmin(ImportExportMixin, admin.ModelAdmin):
     resource_class = CurrencyResource
 
 
-class RateAdmin(ImportExportMixin, admin.ModelAdmin):
+@admin.register(Rate)
+class RateAdmin(CreatedUpdatedModelAdmin):
     list_display = (
         "date",
         "currency",
@@ -73,7 +87,3 @@ class RateAdmin(ImportExportMixin, admin.ModelAdmin):
             report_skipped = True
 
     resource_class = RateResource
-
-
-admin.site.register(Currency, CurrencyAdmin)
-admin.site.register(Rate, RateAdmin)
