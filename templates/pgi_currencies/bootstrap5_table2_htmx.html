@@ -1,3 +1,4 @@
+{# djlint:off H023 #}
 {% load django_tables2 %}
 {% load i18n %}
 {% load pgi_currencies_template %}
@@ -30,7 +31,6 @@
                                                        aria-hidden="true"></i>
                                                 {% endif %}
                                                 {{ column.header }}
-                                                {% comment %} {% trans column.header %} {% endcomment %}
                                             </a>
                                         {% else %}
                                             {{ column.header }}
